@@ -10,11 +10,9 @@
     </style>
   </head>
   <body>
-    <form action="cgi-bin/formmail.cgi" method="post">
-      add keyword to permit notification from connpass<br />
-      <textarea name="kanso" rows="4" cols="40">add keyword here</textarea
-      ><br />
-      <input type="submit" value="add" />
-    </form>
+    <input type="text" id="additional-keyword">add keyword here</input>
+    <br />
+    <button type="button" id="submitBtn"> add </button>
+    <script src="./background.js"></script>
   </body>
 </html>
