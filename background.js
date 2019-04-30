@@ -1,18 +1,27 @@
-chrome.browserAction.onClicked.addListener(
-    () => {
-        chrome.tabs.create({ url: './setting.html' })
-    }
-);
+chrome.browserAction.onClicked.addListener(() => {
+    chrome.tabs.create({ url: './setting.html' })
+});
 
-chrome.alarms.create('call', { 'periodInMinutes': 10 })
+// 1min毎にonAlarm発火
+chrome.alarms.create('call', { 'periodInMinutes': 1 })
 chrome.alarms.onAlarm.addListener(alarm => {
     if (alarm.name === 'call') {
+        let xhr = new XMLHttpRequest();
+
+        // URLを開く
+        xhr.open('GET', 'http://35.200.18.136/event', true);
+        // レスポンスが返ってきた時の処理を記述
+        xhr.onload = (e) => {
+            alert(xhr.responseText);
+            // レスポンスが返ってきた時の処理
+        };
+        xhr.send();
         // localStorageからqueryを取得する
-        const query = getQuery()
+        // const query = getQuery()
         // post qHeader + query
-        const res = getResponse()
-        const parsedRes = parseResponse(res, query)
-        noti(parsedRes)
+        // const res = getResponse()
+        // const parsedRes = parseResponse(res, query)
+        // noti(parsedRes)
     }
 });
 
@@ -27,15 +36,3 @@ function parseResponse(response, query) {
 function noti() {
     return
 }
-
-document.getElementById('submitBtn').onclick = () => {
-    const keyword = document.getElementById('additional-keyword').value
-    const separateStr = ','
-    keyStr = localStorage.keyword
-    if (keyStr === undefined) keyStr = ""
-    parsedKey = keyStr.split(separateStr)
-    parsedKey.push(keyword)
-    if (parsedKey[0] === "") parsedKey.shift()
-    localStorage.keyword = parsedKey.join(separateStr)
-    return
-};
